@@ -92,7 +92,8 @@ module Unix::Pkg
           name = "#{name}=#{version}"
         end
         update_apt_if_needed
-        execute("apt-get install --force-yes #{cmdline_args} -y #{name}", opts)
+        force_hell_yes = "-o Dpkg::Options::='--force-confdef' -o Dpkg::Options::='--force-confold'"
+        execute("apt-get #{force_hell_yes} install --force-yes #{cmdline_args} -y #{name}", opts)
       when /solaris-11/
         if opts[:acceptable_exit_codes]
           opts[:acceptable_exit_codes] << 4
